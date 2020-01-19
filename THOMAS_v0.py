@@ -103,9 +103,9 @@ def conservative_mask(input_masks, output_path, dilation=0, fill=False):
     return output_path
 
 
-parser = argparse.ArgumentParser(description='Thalamic segmentation of a WMnMPRAGE image using STEPS label fusion and the Tourdias atlas. [refs]  Whole-brain template registration pipeline.')
-parser.add_argument('input_image', help='input WMnMPRAGE NiFTI image, may need to be in LR PA IS format')
-parser.add_argument('output_path', help='the output file for single ROI or directory for multiple ROIs')
+parser = argparse.ArgumentParser(description='Thalamic segmentation of a WMnMPRAGE image using PICSL MALF joint label fusion and the Tourdias atlas. [refs]  Whole-brain template registration pipeline.')
+parser.add_argument('input_image', help='input WMnMPRAGE NiFTI image.')
+parser.add_argument('output_path', help='the output directory for segmented ROIs.')
 parser.add_argument('roi_names', metavar='roi_names', choices=roi_choices, nargs='+', help='a space separated list of one or more ROIs.  Valid targets are: %s' % ', '.join(roi_choices))
 parser.add_argument('-w', '--warp', metavar='path', help='looks for {path}InverseWarp.nii.gz and {path}Affine.txt instead of basing it off input_image.')
 parser.add_argument('-F', '--forcereg', action='store_true', help='force ANTS registration to WMnMPRAGE mean brain template. The --warp argument can be then used to specify the output path.')
