@@ -1,0 +1,2 @@
+template.nii.gz filter=lfs diff=lfs merge=lfs -text
+atlas_with_CL_VPM.nii.gz filter=lfs diff=lfs merge=lfs -text
