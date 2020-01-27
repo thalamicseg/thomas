@@ -28,7 +28,7 @@ def detect_side():
     pass
 
 
-def merge_atlas(primary_fname, secondary_fname, output_fnames_dict, background_values={0}):
+def merge_atlas(primary_fname, secondary_fname, output_fnames_dict, background_values={0}, selem=None):
     """
     Merge two atlases together.  The primary atlas is preserved.  New ROIs in the secondary atlas are dilated and used to fill in the "cracks" of the primary atlas.  These should be two NIfTI paths.
     """
@@ -44,7 +44,7 @@ def merge_atlas(primary_fname, secondary_fname, output_fnames_dict, background_v
 
     new_nuclei = secondary.data * mask_secondary
     new_nuclei_values = set(np.unique(new_nuclei)) - background_values
-    new_nuclei = morphology.dilation(new_nuclei)
+    new_nuclei = morphology.dilation(new_nuclei, selem=selem)
     # new_nuclei = morphology.closing(new_nuclei, selem=np.ones((3, 3, 3)))
     merged_atlas = new_nuclei * np.invert(mask_primary) + primary.data * mask_primary
     for value in new_nuclei_values:
@@ -72,6 +72,7 @@ parser.add_argument('-p', '--processes', nargs='?', default=1, const=None, type=
 parser.add_argument('-v', '--verbose', action='store_true', help='verbose mode')
 parser.add_argument('-d', '--debug', action='store_true', help='debug mode, interactive prompts')
 parser.add_argument('-R', '--right', action='store_true', help='segment right thalamus')
+parser.add_argument('--dilation', default=None, type=int, help='amount of dilation to apply to CL and VPM nuclei to fill in gaps of THOMAS segmentation.  By default a connectivity-1 cross-kernel is used.  Otherwise specify a number to use an NxNxN cube. ')
 
 
 REQUIRED_ROIS = ['2-AV', '4-VA', '5-VLa', '6-VLP', '7-VPL', '8-Pul', '9-LGN', '10-MGN', '11-CM', '12-MD-Pf', '13-Hb', '14-MTT']
@@ -112,7 +113,11 @@ def main(args, temp_path, pool):
         18: os.path.join(temp_path, '18-VPM.nii.gz')
     }
     print('--- Merging THOMAS segmentation and CL-VPM atlas. --- Elapsed: %s' % timedelta(seconds=time.time() - t))
-    merge_atlas(thomas_multiatlas, atlasCLVPM_in_native, merged_atlas)
+    if args.dilation is None:
+        dilation_element = None
+    else:
+        dilation_element = np.ones(3*(args.dilation,))
+    merge_atlas(thomas_multiatlas, atlasCLVPM_in_native, merged_atlas, selem=dilation_element)
 
     # Resort output to original ordering
     output_path = args.output_path
