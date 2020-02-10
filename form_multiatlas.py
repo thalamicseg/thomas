@@ -141,7 +141,7 @@ if __name__ == '__main__':
             # ImageMath ImageDimension <OutputImage.ext> [operations and inputs] <Image1.ext> <Image2.ext>
             #   addtozero        : add image-b to image-a only over points where image-a has zero values
             #   overadd        : replace image-a pixel with image-b pixel if image-b pixel is non-zero
-            os.system('Imagemath 3 %s overadd %s %s' % (out, out, temp_file.name))
+            os.system('ImageMath 3 %s overadd %s %s' % (out, out, temp_file.name))
     finally:
         temp_file.close()
 
