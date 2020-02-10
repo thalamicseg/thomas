@@ -97,7 +97,7 @@ parser = argparse.ArgumentParser(description='Merge a set of binary masks into a
 parser.add_argument('method', choices=['Numerical', 'Metric'], help='method to combine masks together.  Numerical to use the index when files are of the format "index#-*.nii.gz", higher index numbers take precedence over lower ones where they overlap.  Metric to compute dice overlap and determine a precedence that leads to the minimum change in dice (generally favors smaller ROIs).')
 parser.add_argument('output_path', help='the output atlas NIfTI file.')
 parser.add_argument('labels', metavar='labels', nargs='+', help='a space separated list of binary mask NIfTI files.')
-parser.add_argument('-p', '--processes', nargs='?', default=1, const=None, type=int, help='number of parallel processes to use.  If specified with no value, automatically set to number of CPUs.')
+parser.add_argument('-p', '--processes', nargs='?', default=None, const=None, type=int, help='number of parallel processes to use.  If unspecified, automatically set to number of CPUs.')
 # parser.add_argument('-v', '--verbose', action='store_true', help='verbose mode')
 # parser.add_argument('-d', '--debug', action='store_true', help='debug mode, interactive prompts')
 # parser.add_argument('-R', '--right', action='store_true', help='segment right thalamus')

@@ -91,7 +91,7 @@ def main(args, temp_path, pool):
     # Form_multiatlas
     thomas_multiatlas = os.path.join(temp_path, 'CLVPM-THOMAS-multiatlas.nii.gz')
     print('--- Joining THOMAS nuclei into a single atlas. --- Elapsed: %s' % timedelta(seconds=time.time() - t))
-    check_run(thomas_multiatlas, parallel_command, os.path.join(this_path, 'form_multiatlas.py') + ' Metric %s %s' % (thomas_multiatlas, ' '.join(required_rois)))
+    check_run(thomas_multiatlas, parallel_command, os.path.join(this_path, 'form_multiatlas.py') + '-p %d Metric %s %s' % (args.processes, thomas_multiatlas, ' '.join(required_rois)))
 
     # Find warps
     inverse_warp = find_unique(os.path.join(temp_path, '*InverseWarp.nii.gz'))
