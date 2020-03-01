@@ -10,7 +10,7 @@ Please see the new version of this project [here](https://github.com/thalamicseg
 - [convert3d](http://www.itksnap.org/pmwiki/pmwiki.php?n=Downloads.C3D)
 
 ## Installation
-- git clone https://github.com/thalamicseg/thomas.git
+- git clone https://github.com/sujason/thomas.git
 - Extract THOMAS-priors.zip to thomas/
 - python require.py
 
